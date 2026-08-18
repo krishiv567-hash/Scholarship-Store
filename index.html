@@ -594,7 +594,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
-const ADMIN_PASSWORD = 'RISE2026';
+
 
 // ── SESSION TRACKING ──────────────────────────────────────────
 const sessionStart = Date.now();
@@ -612,14 +612,31 @@ function getTimeSpent(){
 }
 const SHEETS_URL='https://script.google.com/macros/s/AKfycbzX_8FneV5ygzCE9GnZLzGhfBAEP2k3XTEEGOb60u5Jhc9KyrHDkkt-9SNODnCBMN0-/exec';
 
-function checkAdminPw() {
+async function checkAdminPw() {
   const val = document.getElementById('adminPwInput').value;
-  if (val === ADMIN_PASSWORD) {
-    sessionStorage.setItem('riseAdminPw', val);
-    document.getElementById('backendLogin').style.display = 'none';
-    document.getElementById('backendContent').classList.add('show');
-    renderBackend();
-  } else {
+
+  try {
+    const response = await fetch('/.netlify/functions/review-scholarship', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'auth',
+        password: val
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.ok) {
+      sessionStorage.setItem('riseAdminPw', val);
+      document.getElementById('backendLogin').style.display = 'none';
+      document.getElementById('backendContent').classList.add('show');
+      renderBackend();
+    } else {
+      document.getElementById('adminPwErr').classList.add('show');
+      document.getElementById('adminPwInput').value = '';
+    }
+  } catch (error) {
     document.getElementById('adminPwErr').classList.add('show');
     document.getElementById('adminPwInput').value = '';
   }
