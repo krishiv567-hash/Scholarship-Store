@@ -56,7 +56,12 @@ exports.handler = async (event) => {
   if (body.password !== ADMIN_PASSWORD) {
     return { statusCode: 401, body: JSON.stringify({ error: "Incorrect admin password." }) };
   }
-
+if (body.action === "auth") {
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ ok: true })
+  };
+}
   const action = body.action;
   const id = Number(body.id);
   if (!["publish", "reject"].includes(action) || !Number.isFinite(id)) {
