@@ -40,26 +40,50 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: JSON.stringify({ error: "POST only" }) };
   }
+const {
+  ADMIN_PASSWORD,
+  GITHUB_TOKEN,
+  GITHUB_OWNER,
+  GITHUB_REPO,
+  GITHUB_BRANCH = "main"
+} = process.env;
 
-  const { ADMIN_PASSWORD, GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO, GITHUB_BRANCH = "main" } = process.env;
-  if (!ADMIN_PASSWORD || !GITHUB_TOKEN || !GITHUB_OWNER || !GITHUB_REPO) {
-    return {
-      statusCode: 503,
-      body: JSON.stringify({ error: "Review backend is not configured in Netlify yet." })
-    };
-  }
+let body;
 
-  let body;
-  try { body = JSON.parse(event.body || "{}"); }
-  catch { return { statusCode: 400, body: JSON.stringify({ error: "Invalid JSON" }) }; }
+try {
+  body = JSON.parse(event.body || "{}");
+} catch {
+  return {
+    statusCode: 400,
+    body: JSON.stringify({ error: "Invalid JSON" })
+  };
+}
 
-  if (body.password !== ADMIN_PASSWORD) {
-    return { statusCode: 401, body: JSON.stringify({ error: "Incorrect admin password." }) };
-  }
+if (!ADMIN_PASSWORD) {
+  return {
+    statusCode: 503,
+    body: JSON.stringify({ error: "Admin password is not configured." })
+  };
+}
+
+if (body.password !== ADMIN_PASSWORD) {
+  return {
+    statusCode: 401,
+    body: JSON.stringify({ error: "Incorrect admin password." })
+  };
+}
+
 if (body.action === "auth") {
   return {
     statusCode: 200,
     body: JSON.stringify({ ok: true })
+  };
+}
+
+if (!GITHUB_TOKEN || !GITHUB_OWNER || !GITHUB_REPO) {
+  return {
+    statusCode: 503,
+    body: JSON.stringify({ error: "GitHub publishing backend is not configured." })
   };
 }
   const action = body.action;
