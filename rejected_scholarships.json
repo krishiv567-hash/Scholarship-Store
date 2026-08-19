@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "id": 900002,
+    "cat": "Scholarship",
+    "name": "CLA Foundation Opportunity Scholarship Program",
+    "org": "CLA Foundation",
+    "background": "Automatically discovered candidate. Scholarship America currently marks this program as closed. The program supports students in accounting, business, finance and emerging professional-services fields including data science, analytics, cybersecurity and AI.",
+    "awardRaw": "$15,000",
+    "award": 15000,
+    "trip": false,
+    "semester": "Rolling",
+    "opens": "",
+    "closes": "",
+    "projected": true,
+    "majors": "Accounting, Business, Finance, Computer Science, Data Science and Analytics, Cybersecurity, AI / ML, Technology",
+    "years": "High School Admit, Freshmen, Sophomores, Juniors, Seniors, Graduate",
+    "gpa": 2.5,
+    "citizen": false,
+    "experience": false,
+    "refs": true,
+    "essays": true,
+    "employee": false,
+    "location": "National",
+    "contact": "claopportunityscholarship@scholarshipamerica.org",
+    "link": "https://scholarshipamerica.org/scholarship/claopportunityscholarship/",
+    "autoSourced": true,
+    "source": "Scholarship America",
+    "sourceStatus": "Closed",
+    "relevanceReason": "Direct match for accounting, finance, business, analytics, cybersecurity and AI students.",
+    "lastChecked": "2026-08-18",
+    "reviewStatus": "Rejected",
+    "reviewedAt": "2026-08-19T06:00:36.123Z"
+  }
+]
